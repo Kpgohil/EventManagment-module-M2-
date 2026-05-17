@@ -7,6 +7,7 @@ use Elsnertech\Event\Controller\Adminhtml\Event;
 use Elsnertech\Event\Helper\UrlKey;
 use Elsnertech\Event\Model\EventFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Psr\Log\LoggerInterface;
 
 class Save extends Event
 {
@@ -15,7 +16,8 @@ class Save extends Event
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         private readonly EventFactory $eventFactory,
-        private readonly UrlKey $urlKeyHelper
+        private readonly UrlKey $urlKeyHelper,
+        private readonly LoggerInterface $logger
     ) {
         parent::__construct($context);
     }
@@ -73,7 +75,7 @@ class Save extends Event
         } catch (LocalizedException $exception) {
             $this->messageManager->addErrorMessage($exception->getMessage());
         } catch (\Throwable $exception) {
-            $this->_objectManager->get(\Psr\Log\LoggerInterface::class)->critical($exception);
+            $this->logger->critical($exception);
             $this->messageManager->addErrorMessage(__('Something went wrong while saving the event.'));
         }
 
