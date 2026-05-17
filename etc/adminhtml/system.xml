@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="elsnertech" translate="label" sortOrder="200">
+            <label>Elsnertech</label>
+        </tab>
+        <section id="elsnertech_event" translate="label" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Event Management</label>
+            <tab>elsnertech</tab>
+            <resource>Elsnertech_Event::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="per_page" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Events Per Page</label>
+                    <comment>Number of events to display on the listing page.</comment>
+                    <config_path>elsnertech_event/general/per_page</config_path>
+                    <validate>validate-digits validate-not-negative-number</validate>
+                </field>
+                <field id="sort_order" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Sort Order</label>
+                    <source_model>Elsnertech\Event\Model\Source\SortOrder</source_model>
+                    <config_path>elsnertech_event/general/sort_order</config_path>
+                </field>
+                <field id="show_past" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Past Events</label>
+                    <comment>When enabled, past events will also appear on the listing page.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>elsnertech_event/general/show_past</config_path>
+                </field>
+                <field id="listing_label" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Upcoming Events Label</label>
+                    <comment>Custom heading text shown on the events listing page hero.</comment>
+                    <config_path>elsnertech_event/general/listing_label</config_path>
+                </field>
+            </group>
+            <group id="display" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Display</label>
+                <field id="show_hero" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Hero Banner</label>
+                    <comment>Display the hero banner on the events listing page.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>elsnertech_event/display/show_hero</config_path>
+                </field>
+                <field id="show_gallery" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show Gallery on Detail Page</label>
+                    <comment>Display the image gallery section on the event detail page.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>elsnertech_event/display/show_gallery</config_path>
+                </field>
+                <field id="card_image_height" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Card Image Height</label>
+                    <comment>Height of listing card images in pixels.</comment>
+                    <config_path>elsnertech_event/display/card_image_height</config_path>
+                    <validate>validate-digits validate-not-negative-number</validate>
+                </field>
+                <field id="default_venue_label" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Venue Label</label>
+                    <comment>Fallback text shown when an event has no venue set (e.g. "TBD").</comment>
+                    <config_path>elsnertech_event/display/default_venue_label</config_path>
+                </field>
+            </group>
+            <group id="notifications" translate="label" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Notifications</label>
+                <field id="admin_notify" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Admin Email Notifications</label>
+                    <comment>Send an email notification when a new event is created.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>elsnertech_event/notifications/admin_notify</config_path>
+                </field>
+                <field id="notification_email" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Notification Email</label>
+                    <comment>Email address to receive event notifications.</comment>
+                    <config_path>elsnertech_event/notifications/notification_email</config_path>
+                    <validate>validate-email</validate>
+                </field>
+            </group>
+            <group id="seo" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>SEO &amp; URLs</label>
+                <field id="url_suffix" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>URL Suffix</label>
+                    <comment>Add .html at the end of event detail URLs. Disable for non-.html URL structure.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>elsnertech_event/seo/url_suffix</config_path>
+                </field>
+                <field id="calendar_page_title" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Calendar Page Title</label>
+                    <comment>Meta title for the events calendar page.</comment>
+                    <config_path>elsnertech_event/seo/calendar_page_title</config_path>
+                </field>
+                <field id="calendar_page_description" translate="label comment" type="textarea" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Calendar Page Meta Description</label>
+                    <comment>Meta description for the events calendar page.</comment>
+                    <config_path>elsnertech_event/seo/calendar_page_description</config_path>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -19,7 +19,7 @@ class MassDelete extends Event
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());
         $count = 0;

@@ -14,7 +14,7 @@ class Index extends Action
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         return $this->resultFactory->create(ResultFactory::TYPE_PAGE);
     }

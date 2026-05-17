@@ -18,7 +18,7 @@ class Edit extends Event
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         $eventId = (int)$this->getRequest()->getParam('event_id');
         $model = $this->eventFactory->create();

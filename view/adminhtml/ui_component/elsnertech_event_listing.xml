@@ -114,6 +114,7 @@
         <column name="status" component="Magento_Ui/js/grid/columns/select" sortOrder="70">
             <settings>
                 <filter>select</filter>
+                <dataType>select</dataType>
                 <label translate="true">Status</label>
                 <options class="Elsnertech\Event\Model\Source\Status"/>
             </settings>

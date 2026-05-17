@@ -8,7 +8,7 @@ use Magento\Framework\Controller\ResultFactory;
 
 class Index extends Event
 {
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         $resultPage->setActiveMenu('Elsnertech_Event::event');

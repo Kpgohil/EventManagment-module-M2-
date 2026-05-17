@@ -129,6 +129,7 @@ class Event extends AbstractDb
         if ($eventId <= 0) {
             return;
         }
+        // Fallback: empty store_ids array defaults to [0] (All Store Views)
         $storeIds = $object->getData('store_ids') ?: [0];
         $storeIds = array_unique(array_map('intval', (array)$storeIds));
 
@@ -161,13 +162,20 @@ class Event extends AbstractDb
             if ($path === '') {
                 continue;
             }
+            // Guard: image has a temp file but no name — skip (can happen with partial uploads / orphaned tmp files)
             if (!empty($image['tmp_name']) && empty($image['name'])) {
                 continue;
             }
 
+            // Ensure the path includes the subdirectory prefix (avoid doubling on re-save)
+            $cleanPath = ltrim($path, '/');
+            if (!str_starts_with($cleanPath, 'elsnertech/event/')) {
+                $cleanPath = 'elsnertech/event/' . $cleanPath;
+            }
+
             $normalized[] = [
                 'event_id' => $eventId,
-                'image' => ltrim($path, '/'),
+                'image' => $cleanPath,
                 'label' => (string)($image['label'] ?? ''),
                 'position' => isset($image['position']) ? (int)$image['position'] : ($position + 1),
                 'disabled' => !empty($image['disabled']) ? 1 : 0,

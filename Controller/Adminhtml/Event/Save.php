@@ -22,7 +22,7 @@ class Save extends Event
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         $data = $this->getRequest()->getPostValue();
         if (!$data) {

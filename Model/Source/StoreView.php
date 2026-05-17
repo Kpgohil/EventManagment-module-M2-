@@ -6,7 +6,7 @@ namespace Elsnertech\Event\Model\Source;
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
-class ContentStore implements OptionSourceInterface
+class StoreView implements OptionSourceInterface
 {
     public function __construct(
         private readonly StoreManagerInterface $storeManager
@@ -16,10 +16,10 @@ class ContentStore implements OptionSourceInterface
     public function toOptionArray(): array
     {
         $options = [
-            ['value' => 0, 'label' => __('Default (All Store Views)')]
+            ['value' => 0, 'label' => __('All Store Views')]
         ];
 
-        foreach ($this->storeManager->getStores(true) as $store) {
+        foreach ($this->storeManager->getStores() as $store) {
             $options[] = [
                 'value' => (int)$store->getId(),
                 'label' => $store->getName(),
@@ -29,4 +29,3 @@ class ContentStore implements OptionSourceInterface
         return $options;
     }
 }
-

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <elsnertech_event>
+            <general>
+                <per_page>12</per_page>
+                <sort_order>start_datetime_asc</sort_order>
+                <show_past>0</show_past>
+            </general>
+            <display>
+                <show_hero>1</show_hero>
+                <show_gallery>1</show_gallery>
+                <card_image_height>220</card_image_height>
+            </display>
+            <seo>
+                <calendar_page_title>Event Calendar</calendar_page_title>
+                <calendar_page_description>Browse our events by date on the interactive calendar.</calendar_page_description>
+            </seo>
+        </elsnertech_event>
+    </default>
+</config>

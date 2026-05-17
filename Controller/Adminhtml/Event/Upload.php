@@ -21,7 +21,7 @@ class Upload extends Event
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
         try {

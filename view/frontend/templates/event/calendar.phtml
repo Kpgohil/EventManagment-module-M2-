@@ -1,0 +1,161 @@
+<?php
+/**
+ * @var \Elsnertech\Event\Block\Calendar $block
+ */
+$year = $block->getCurrentYear();
+$month = $block->getCurrentMonth();
+$monthName = $block->getMonthName($month);
+$firstDay = $block->getFirstDayOfWeek();
+$totalDays = $block->getTotalDays();
+$weeks = $block->getWeeksInMonth();
+$eventsByDay = $block->getEventsByDay();
+$totalEvents = $block->getTotalEventCount();
+$isCurrentMonth = $block->isCurrentMonth();
+$prev = $block->getPrevMonthParams();
+$next = $block->getNextMonthParams();
+$dayNames = [__('Sun'), __('Mon'), __('Tue'), __('Wed'), __('Thu'), __('Fri'), __('Sat')];
+$venueLabel = $block->getDefaultVenueLabel();
+?>
+
+<div class="els-cal">
+
+    <!-- Hero -->
+    <div class="els-cal__hero">
+        <div class="els-cal__hero-overlay"></div>
+        <div class="els-cal__hero-content">
+            <span class="els-cal__hero-badge"><?= $block->escapeHtml(__('Calendar')) ?></span>
+            <h1 class="els-cal__hero-title"><?= $block->escapeHtml($block->getCalendarTitle()) ?></h1>
+            <p class="els-cal__hero-subtitle"><?= $block->escapeHtml($block->getCalendarDescription()) ?></p>
+        </div>
+    </div>
+
+    <div class="els-cal__wrapper">
+
+        <!-- Stats Bar -->
+        <div class="els-cal__stats">
+            <span class="els-cal__stats-count">
+                <strong><?= (int)$totalEvents ?></strong>
+                <?= $block->escapeHtml($totalEvents === 1 ? __('event') : __('events')) ?>
+            </span>
+            <span class="els-cal__stats-month"><?= $block->escapeHtml($monthName) ?> <?= $year ?></span>
+            <a href="<?= $block->escapeUrl($block->getUrl('events')) ?>" class="els-cal__stats-link">
+                <?= $block->escapeHtml(__('List View')) ?>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Month Navigation -->
+        <div class="els-cal__nav">
+            <a href="?<?= http_build_query($prev) ?>" class="els-cal__nav-btn els-cal__nav-prev" title="<?= $block->escapeHtmlAttr(__('Previous Month')) ?>">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                </svg>
+                <span class="els-cal__nav-label"><?= $block->escapeHtml($block->getMonthName((int)$prev['month'])) ?></span>
+            </a>
+
+            <h2 class="els-cal__nav-title">
+                <?= $block->escapeHtml($monthName) ?>
+                <span class="els-cal__nav-year"><?= $year ?></span>
+            </h2>
+
+            <a href="?<?= http_build_query($next) ?>" class="els-cal__nav-btn els-cal__nav-next" title="<?= $block->escapeHtmlAttr(__('Next Month')) ?>">
+                <span class="els-cal__nav-label"><?= $block->escapeHtml($block->getMonthName((int)$next['month'])) ?></span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div class="els-cal__grid">
+            <!-- Day Headers -->
+            <?php foreach ($dayNames as $name): ?>
+                <div class="els-cal__header"><?= $block->escapeHtml($name) ?></div>
+            <?php endforeach; ?>
+
+            <!-- Empty cells before first day -->
+            <?php for ($i = 0; $i < $firstDay; $i++): ?>
+                <div class="els-cal__cell els-cal__cell--empty"></div>
+            <?php endfor; ?>
+
+            <!-- Day cells -->
+            <?php for ($day = 1; $day <= $totalDays; $day++):
+                $hasEvents = $block->hasEvents($day);
+                $isToday = $block->isToday($day);
+                $dayEvents = $block->getDayEvents($day);
+                $cellClass = 'els-cal__cell';
+                if ($hasEvents) $cellClass .= ' els-cal__cell--has-events';
+                if ($isToday) $cellClass .= ' els-cal__cell--today';
+            ?>
+                <div class="<?= $cellClass ?>">
+                    <span class="els-cal__day-num"><?= $day ?></span>
+                    <?php if ($hasEvents): ?>
+                        <div class="els-cal__events">
+                            <?php foreach ($dayEvents as $event):
+                                $evtTitle = (string)$event->getData('title');
+                                $evtTime = $block->getFormattedDate($event->getData('start_datetime'));
+                                $evtVenue = (string)$event->getData('venue');
+                                if ($evtVenue === '' && $venueLabel !== '') {
+                                    $evtVenue = $venueLabel;
+                                }
+                            ?>
+                                <a href="<?= $block->escapeUrl($block->getEventUrl($event)) ?>"
+                                   class="els-cal__event"
+                                   title="<?= $block->escapeHtmlAttr($evtTitle) ?>">
+                                    <span class="els-cal__event-time"><?= $block->escapeHtml($evtTime) ?></span>
+                                    <span class="els-cal__event-title"><?= $block->escapeHtml($evtTitle) ?></span>
+                                    <?php if ($evtVenue): ?>
+                                        <span class="els-cal__event-venue"><?= $block->escapeHtml($evtVenue) ?></span>
+                                    <?php endif; ?>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endfor; ?>
+
+            <!-- Empty cells after last day to fill the grid -->
+            <?php
+            $totalCells = $firstDay + $totalDays;
+            $remainder = $totalCells % 7;
+            $emptyAfter = $remainder === 0 ? 0 : 7 - $remainder;
+            for ($i = 0; $i < $emptyAfter; $i++): ?>
+                <div class="els-cal__cell els-cal__cell--empty"></div>
+            <?php endfor; ?>
+        </div>
+
+        <!-- Mobile List (visible only on small screens) -->
+        <div class="els-cal__mobile-list">
+            <h3 class="els-cal__mobile-title"><?= $block->escapeHtml(__('Events in')) ?> <?= $block->escapeHtml($monthName) ?></h3>
+            <?php if ($totalEvents === 0): ?>
+                <p class="els-cal__mobile-empty"><?= $block->escapeHtml(__('No events this month.')) ?></p>
+            <?php else: ?>
+                <?php for ($day = 1; $day <= $totalDays; $day++):
+                    $dayEvents = $block->getDayEvents($day);
+                    if (empty($dayEvents)) continue;
+                ?>
+                    <div class="els-cal__mobile-day">
+                        <div class="els-cal__mobile-day-label">
+                            <span class="els-cal__mobile-day-num"><?= $day ?></span>
+                            <span class="els-cal__mobile-day-name"><?= $block->escapeHtml(date('l', mktime(0, 0, 0, $month, $day, $year))) ?></span>
+                        </div>
+                        <div class="els-cal__mobile-events">
+                            <?php foreach ($dayEvents as $event):
+                                $evtTitle = (string)$event->getData('title');
+                                $evtTime = $block->getFormattedDate($event->getData('start_datetime'));
+                            ?>
+                                <a href="<?= $block->escapeUrl($block->getEventUrl($event)) ?>" class="els-cal__mobile-event">
+                                    <span class="els-cal__mobile-event-time"><?= $block->escapeHtml($evtTime) ?></span>
+                                    <span class="els-cal__mobile-event-title"><?= $block->escapeHtml($evtTitle) ?></span>
+                                </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endfor; ?>
+            <?php endif; ?>
+        </div>
+
+    </div>
+</div>

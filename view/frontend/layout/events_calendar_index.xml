@@ -2,12 +2,14 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       layout="1column"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+    </head>
     <body>
         <referenceBlock name="page.main.title" remove="true"/>
         <referenceContainer name="content">
-            <block class="Elsnertech\Event\Block\EventView"
-                   name="elsnertech.event.view"
-                   template="Elsnertech_Event::event/view.phtml"/>
+            <block class="Elsnertech\Event\Block\Calendar"
+                   name="elsnertech.event.calendar"
+                   template="Elsnertech_Event::event/calendar.phtml"/>
         </referenceContainer>
     </body>
 </page>

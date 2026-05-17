@@ -8,6 +8,7 @@
                     <resource id="Elsnertech_Event::event" title="Manage Events" sortOrder="10"/>
                     <resource id="Elsnertech_Event::event_save" title="Save Event" sortOrder="20"/>
                     <resource id="Elsnertech_Event::event_delete" title="Delete Event" sortOrder="30"/>
+                    <resource id="Elsnertech_Event::config" title="Event Configuration" sortOrder="40"/>
                 </resource>
             </resource>
         </resources>

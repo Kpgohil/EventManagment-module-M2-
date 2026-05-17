@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <head>
-        <css src="Elsnertech_Event::css/event.css"/>
-    </head>
     <body>
         <referenceBlock name="footer_links">
             <block class="Magento\Framework\View\Element\Html\Link\Current" name="elsnertech-event-footer-link">
                 <arguments>
                     <argument name="label" xsi:type="string" translate="true">Events</argument>
                     <argument name="path" xsi:type="string">events</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Framework\View\Element\Html\Link\Current" name="elsnertech-event-calendar-footer-link">
+                <arguments>
+                    <argument name="label" xsi:type="string" translate="true">Events Calendar</argument>
+                    <argument name="path" xsi:type="string">events/calendar</argument>
                 </arguments>
             </block>
         </referenceBlock>

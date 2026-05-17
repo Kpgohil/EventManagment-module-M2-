@@ -13,5 +13,14 @@ class Collection extends AbstractCollection
     {
         $this->_init(EventModel::class, EventResource::class);
     }
+
+    protected function _afterLoad(): self
+    {
+        parent::_afterLoad();
+        foreach ($this->getItems() as $item) {
+            $this->getResource()->afterLoad($item);
+        }
+        return $this;
+    }
 }
 

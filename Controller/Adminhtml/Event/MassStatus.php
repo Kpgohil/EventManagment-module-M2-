@@ -19,7 +19,7 @@ class MassStatus extends Event
         parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         $status = (int)$this->getRequest()->getParam('status');
         $collection = $this->filter->getCollection($this->collectionFactory->create());

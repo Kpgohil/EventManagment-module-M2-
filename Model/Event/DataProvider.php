@@ -41,8 +41,10 @@ class DataProvider extends AbstractDataProvider
                 }
                 $images[] = [
                     'name' => $name,
-                    'url' => $mediaUrl . ltrim($name, '/'),
+                    'url' => $mediaUrl . (str_contains($name, '/') ? '' : 'elsnertech/event/') . ltrim($name, '/'),
                     'file' => $name,
+                    'type' => $this->getMimeType($name),
+                    'size' => 0,
                     'label' => (string)($image['label'] ?? ''),
                     'position' => (int)($image['position'] ?? 0),
                     'disabled' => (int)($image['disabled'] ?? 0),
@@ -53,5 +55,17 @@ class DataProvider extends AbstractDataProvider
         }
 
         return $this->loadedData;
+    }
+
+    private function getMimeType(string $filename): string
+    {
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        return match ($ext) {
+            'jpg', 'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp',
+            default => 'image/jpeg',
+        };
     }
 }
