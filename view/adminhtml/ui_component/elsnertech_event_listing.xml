@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">elsnertech_event_listing.elsnertech_event_listing_data_source</item>
+        </item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="add">
+                <url path="elsnertech_event/event/new"/>
+                <class>primary</class>
+                <label translate="true">Add New Event</label>
+            </button>
+        </buttons>
+        <spinner>elsnertech_event_columns</spinner>
+        <deps>
+            <dep>elsnertech_event_listing.elsnertech_event_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="elsnertech_event_listing_data_source" component="Magento_Ui/js/grid/provider">
+        <settings>
+            <storageConfig>
+                <param name="indexField" xsi:type="string">event_id</param>
+            </storageConfig>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Elsnertech_Event::event</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="elsnertech_event_listing_data_source">
+            <settings>
+                <requestFieldName>event_id</requestFieldName>
+                <primaryFieldName>event_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <settings>
+                    <type>delete</type>
+                    <label translate="true">Delete</label>
+                    <url path="elsnertech_event/event/massDelete"/>
+                    <confirm>
+                        <message translate="true">Are you sure you want to delete selected events?</message>
+                        <title translate="true">Delete events</title>
+                    </confirm>
+                </settings>
+            </action>
+            <action name="enable">
+                <settings>
+                    <type>enable</type>
+                    <label translate="true">Enable</label>
+                    <url path="elsnertech_event/event/massStatus">
+                        <param name="status">1</param>
+                    </url>
+                </settings>
+            </action>
+            <action name="disable">
+                <settings>
+                    <type>disable</type>
+                    <label translate="true">Disable</label>
+                    <url path="elsnertech_event/event/massStatus">
+                        <param name="status">0</param>
+                    </url>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="elsnertech_event_columns">
+        <column name="event_id" sortOrder="10">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+        <column name="title" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Title</label>
+            </settings>
+        </column>
+        <column name="url_key" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">URL Key</label>
+            </settings>
+        </column>
+        <column name="venue" sortOrder="40">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Venue</label>
+            </settings>
+        </column>
+        <column name="start_datetime" class="Magento\Ui\Component\Listing\Columns\Date" sortOrder="50">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">Start Date</label>
+            </settings>
+        </column>
+        <column name="end_datetime" class="Magento\Ui\Component\Listing\Columns\Date" sortOrder="60">
+            <settings>
+                <filter>dateRange</filter>
+                <dataType>date</dataType>
+                <label translate="true">End Date</label>
+            </settings>
+        </column>
+        <column name="status" component="Magento_Ui/js/grid/columns/select" sortOrder="70">
+            <settings>
+                <filter>select</filter>
+                <label translate="true">Status</label>
+                <options class="Elsnertech\Event\Model\Source\Status"/>
+            </settings>
+        </column>
+        <column name="sort_order" sortOrder="80">
+            <settings>
+                <filter>textRange</filter>
+                <label translate="true">Sort Order</label>
+            </settings>
+        </column>
+        <actionsColumn name="actions" class="Elsnertech\Event\Ui\Component\Listing\Column\EventActions" sortOrder="100">
+            <settings>
+                <indexField>event_id</indexField>
+            </settings>
+        </actionsColumn>
+    </columns>
+    <listingToolbar name="listing_bottom">
+        <paging name="listing_paging_bottom"/>
+    </listingToolbar>
+</listing>

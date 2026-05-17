@@ -1,0 +1,43 @@
+<?php
+/** @var \Elsnertech\Event\Block\EventView $block */
+$event = $block->getEvent();
+if (!$event) {
+    return;
+}
+$gallery = $block->getGalleryImages();
+?>
+<article class="els-event-view">
+    <header class="els-event-view__header">
+        <h1><?= $block->escapeHtml((string)$event->getData('title')) ?></h1>
+        <div class="els-event-view__meta">
+            <span><?= $block->escapeHtml($block->getFormattedDate($event->getData('start_datetime'))) ?></span>
+            <?php if ($event->getData('end_datetime')): ?>
+                <span><?= $block->escapeHtml(__('to %1', $block->getFormattedDate($event->getData('end_datetime')))) ?></span>
+            <?php endif; ?>
+            <?php if ($event->getData('venue')): ?>
+                <span><?= $block->escapeHtml((string)$event->getData('venue')) ?></span>
+            <?php endif; ?>
+        </div>
+    </header>
+
+    <?php if ($gallery): ?>
+        <section class="els-event-view__gallery">
+            <?php foreach ($gallery as $image): ?>
+                <figure>
+                    <img src="<?= $block->escapeUrl($image['url']) ?>" alt="<?= $block->escapeHtml($image['label']) ?>"/>
+                </figure>
+            <?php endforeach; ?>
+        </section>
+    <?php endif; ?>
+
+    <?php if ($event->getData('short_description')): ?>
+        <p class="els-event-view__short"><?= $block->escapeHtml((string)$event->getData('short_description')) ?></p>
+    <?php endif; ?>
+
+    <?php if ($event->getData('description')): ?>
+        <section class="els-event-view__description">
+            <?= /* @noEscape */ $event->getData('description') ?>
+        </section>
+    <?php endif; ?>
+</article>
+

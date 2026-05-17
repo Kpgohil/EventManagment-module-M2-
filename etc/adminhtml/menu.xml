@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Elsnertech_Event::event_root"
+             title="Event Management"
+             module="Elsnertech_Event"
+             sortOrder="90"
+             resource="Elsnertech_Event::event_root"/>
+        <add id="Elsnertech_Event::event"
+             title="Events"
+             module="Elsnertech_Event"
+             sortOrder="10"
+             parent="Elsnertech_Event::event_root"
+             action="elsnertech_event/event/index"
+             resource="Elsnertech_Event::event"/>
+    </menu>
+</config>
+

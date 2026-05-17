@@ -1,0 +1,42 @@
+<?php
+/** @var \Elsnertech\Event\Block\EventList $block */
+$events = $block->getEventCollection();
+?>
+<div class="els-event-page">
+    <div class="els-event-page__header">
+        <h1><?= $block->escapeHtml(__('Events')) ?></h1>
+    </div>
+    <?php if ($events->getSize()): ?>
+        <div class="els-event-grid">
+            <?php foreach ($events as $event): ?>
+                <article class="els-event-card">
+                    <div class="els-event-card__content">
+                        <h2 class="els-event-card__title">
+                            <a href="<?= $block->escapeUrl($block->getEventUrl((string)$event->getData('url_key'))) ?>">
+                                <?= $block->escapeHtml((string)$event->getData('title')) ?>
+                            </a>
+                        </h2>
+                        <div class="els-event-card__meta">
+                            <span><?= $block->escapeHtml($block->getFormattedDate($event->getData('start_datetime'))) ?></span>
+                            <?php if ($event->getData('venue')): ?>
+                                <span><?= $block->escapeHtml((string)$event->getData('venue')) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <?php if ($event->getData('short_description')): ?>
+                            <p class="els-event-card__desc"><?= /* @noEscape */ nl2br($block->escapeHtml((string)$event->getData('short_description'))) ?></p>
+                        <?php endif; ?>
+                        <a class="els-event-card__cta" href="<?= $block->escapeUrl($block->getEventUrl((string)$event->getData('url_key'))) ?>">
+                            <?= $block->escapeHtml(__('View Event')) ?>
+                        </a>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+        <div class="els-event-page__pager">
+            <?= /* @noEscape */ $block->getPagerHtml() ?>
+        </div>
+    <?php else: ?>
+        <div class="message info empty"><span><?= $block->escapeHtml(__('No upcoming events found.')) ?></span></div>
+    <?php endif; ?>
+</div>
+
